@@ -23,7 +23,7 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
+        name: backend
         image: stefanprodan/podinfo:6.0.2
         imagePullPolicy: IfNotPresent
         ports:
@@ -54,7 +54,7 @@ spec:
             - podcli
             - check
             - http
-            - localhost:9998/healthz
+            - localhost:9898/healthz
           initialDelaySeconds: 5
           timeoutSeconds: 5
         readinessProbe:
