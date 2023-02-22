@@ -5,13 +5,13 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   name: podinfo-frontend
-  namespace: flux-system
+  namespace: test
 spec:
   rules:
-    http:
+  - http:
       paths:
       - pathType: ImplementationSpecific
-        path: /?(.*)
+        path: /podinfo/?(.*)
         backend:
           service:
             name: frontend
