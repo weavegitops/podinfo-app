@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: stefanprodan/podinfo:6.0.2
+        image: stefanprodan/podinfo:23.0.0
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
