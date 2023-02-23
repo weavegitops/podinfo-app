@@ -9,7 +9,9 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-   - http:
+#here is a mistake:
+#should be: - http:
+    http:
       paths:
       - backend:
           service:
