@@ -11,7 +11,7 @@ spec:
   rules:
 #here is a mistake:
 #should be: - http:
-    http:
+   - http:
       paths:
       - backend:
           service:
