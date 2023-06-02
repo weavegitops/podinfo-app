@@ -1,0 +1,45 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha1
+kind: Terraform
+metadata:
+  labels:
+    templates.weave.works/template-name: rds-template-devteam1
+    templates.weave.works/template-namespace: default
+  name: rds-database-demo-devteam1
+  namespace: devteam1
+  annotations:
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-rrbue\",\"title\":\"Create resource \",\"description\":\"This PR creates a rds-template-devteam1 instance\",\"template_name\":\"rds-template-devteam1\",\"parameter_values\":{\"BACKUP_RETENTION_PERIOD\":\"1\",\"CLUSTER_IDENTIFIER\":\"rdsdatabasedemodev\",\"DATABASE_ENGINE\":\"aurora-mysql\",\"DATABASE_ENGINE_VERSION\":\"5.7.mysql_aurora.2.11.1\",\"DATABASE_INSTANCE_SIZE\":\"db.t3.small\",\"DATABASE_NAME\":\"rdsdatabasedemodev\",\"DESTROY\":\"false\",\"REGION\":\"eu-central-1\",\"RESOURCE_NAME\":\"rds-database-demo-devteam1\"},\"commit_message\":\"Create rds-template-devteam1 instance\",\"credentials\":{},\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+    templates.weave.works/created-files: "{\"files\":[\"clusters/management/terraform/devteam1/rds-database-demo-devteam1.yaml\"]}"
+spec:
+  alwaysCleanupRunnerPod: true
+  approvePlan: auto
+  destroy: false
+  destroyResourcesOnDeletion: true
+  enableInventory: true
+  interval: 1h
+  path: ./terraform/rds
+  serviceAccountName: team-podinfo
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  storeReadablePlan: human
+  vars:
+  - name: cluster_identifier
+    value: rdsdatabasedemodev
+  - name: database_name
+    value: rdsdatabasedemodev
+  - name: backup_retention_period
+    value: 1
+  - name: region
+    value: eu-central-1
+  - name: database_engine
+    value: aurora-mysql
+  - name: database_engine_version
+    value: 5.7.mysql_aurora.2.11.1
+  - name: database_instance_size
+    value: db.t3.small
+  varsFrom:
+  - kind: Secret
+    name: tf-controller-auth
+  - kind: Secret
+    name: rds-db-creds
