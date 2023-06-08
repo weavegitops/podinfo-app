@@ -1,0 +1,97 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  creationTimestamp: null
+  labels:
+    weave.works/applied-layer: layer-2
+  name: elk-stack
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: elk-stack
+      sourceRef:
+        apiVersion: source.toolkit.fluxcd.io/v1beta2
+        kind: HelmRepository
+        name: weaveworks-charts
+        namespace: flux-system
+      version: 0.0.9
+  dependsOn:
+  - name: weave-policy-agent
+  - name: ingress-nginx
+  - name: secrets-store-config
+  install:
+    crds: CreateReplace
+  interval: 1m0s
+  upgrade:
+    crds: CreateReplace
+  values: {}
+status: {}
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  creationTimestamp: null
+  labels:
+    weave.works/applied-layer: layer-2
+  name: external-dns
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: external-dns
+      sourceRef:
+        apiVersion: source.toolkit.fluxcd.io/v1beta2
+        kind: HelmRepository
+        name: weaveworks-charts
+        namespace: flux-system
+      version: 0.0.5
+  dependsOn:
+  - name: weave-policy-agent
+  - name: ingress-nginx
+  - name: secrets-store-config
+  install:
+    crds: CreateReplace
+  interval: 1m0s
+  upgrade:
+    crds: CreateReplace
+  values: {}
+status: {}
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  creationTimestamp: null
+  labels:
+    weave.works/applied-layer: layer-3
+  name: flagger
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: flagger
+      sourceRef:
+        apiVersion: source.toolkit.fluxcd.io/v1beta2
+        kind: HelmRepository
+        name: weaveworks-charts
+        namespace: flux-system
+      version: 0.0.4
+  dependsOn:
+  - name: elk-stack
+  - name: external-dns
+  - name: prometheus
+  install:
+    crds: CreateReplace
+    createNamespace: true
+  interval: 1m0s
+  targetNamespace: flagger
+  upgrade:
+    crds: CreateReplace
+  values:
+    flagger:
+      meshProvider: nginx
+      prometheus:
+        install: true
+    loadtester:
+      logLevel: debug
+status: {}
