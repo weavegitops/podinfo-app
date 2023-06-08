@@ -1,0 +1,19 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-xagos5\",\"title\":\"Create resource \",\"description\":\"This PR creates a lm-edge-devteam1-self-service instance\",\"template_name\":\"lm-edge-devteam1-self-service\",\"parameter_values\":{\"CLUSTER_NAME\":\"devteam1-host51-cluster31\",\"CONTROL_PLANE_MACHINE_COUNT\":\"1\",\"CONTROL_PLANE_VIP\":\"172.16.30.31\",\"HOST_IP\":\"147.28.139.51\",\"KUBERNETES_VERSION\":\"1.23.5\",\"LOADBALANCER_IP\":\"172.16.30.231\",\"WORKER_MACHINE_COUNT\":\"1\"},\"commit_message\":\"Create lm-edge-devteam1-self-service instance\",\"credentials\":{},\"values\":[{\"name\":\"cert-manager\",\"version\":\"0.0.8\",\"layer\":\"layer-0\",\"namespace\":\"cert-manager\"},{\"name\":\"elk-stack\",\"version\":\"0.0.9\",\"layer\":\"layer-2\"},{\"name\":\"external-dns\",\"version\":\"0.0.5\",\"layer\":\"layer-2\"},{\"name\":\"external-secrets\",\"version\":\"0.6.1\",\"values\":\"c2VjcmV0U3RvcmVzOgogIGVuYWJsZWQ6IGZhbHNlCg==\",\"layer\":\"layer-0\",\"namespace\":\"external-secrets\"},{\"name\":\"flagger\",\"version\":\"0.0.4\",\"values\":\"ZmxhZ2dlcjoKICBtZXNoUHJvdmlkZXI6IG5naW54CiAgcHJvbWV0aGV1czoKICAgIGluc3RhbGw6IHRydWUKbG9hZHRlc3RlcjoKICBsb2dMZXZlbDogZGVidWcK\",\"layer\":\"layer-3\",\"namespace\":\"flagger\"},{\"name\":\"ingress-nginx\",\"version\":\"0.0.18\",\"layer\":\"layer-1\",\"namespace\":\"ingress-nginx\"},{\"name\":\"metallb\",\"version\":\"0.0.3\",\"values\":\"bWV0YWxsYjoKICBjb25maWdJbmxpbmU6CiAgICBhZGRyZXNzLXBvb2xzOgogICAgLSBhZGRyZXNzZXM6CiAgICAgIC0gJHtMT0FEQkFMQU5DRVJfSVB9LzMyCiAgICAgIG5hbWU6IGRlZmF1bHQKICAgICAgcHJvdG9jb2w6IGxheWVyMgo=\",\"layer\":\"layer-0\",\"namespace\":\"metallb-system\"},{\"name\":\"prometheus\",\"version\":\"0.0.11\",\"layer\":\"layer-2\",\"namespace\":\"prometheus\"},{\"name\":\"secrets-store-config\",\"version\":\"0.0.2\",\"values\":\"Y2x1c3RlclNlY3JldFN0b3JlczoKICBhd3Mtc2VjcmV0bWFuYWdlcjoKICAgIHByb3ZpZGVyOgogICAgICBhd3M6CiAgICAgICAgYXV0aDoKICAgICAgICAgIHNlY3JldFJlZjoKICAgICAgICAgICAgYWNjZXNzS2V5SURTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBhY2Nlc3Mta2V5CiAgICAgICAgICAgICAgbmFtZTogYXdzc20tc2VjcmV0CiAgICAgICAgICAgICAgbmFtZXNwYWNlOiBmbHV4LXN5c3RlbQogICAgICAgICAgICBzZWNyZXRBY2Nlc3NLZXlTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBzZWNyZXQtYWNjZXNzLWtleQogICAgICAgICAgICAgIG5hbWU6IGF3c3NtLXNlY3JldAogICAgICAgICAgICAgIG5hbWVzcGFjZTogZmx1eC1zeXN0ZW0KICAgICAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgICAgIHNlcnZpY2U6IFNlY3JldHNNYW5hZ2VyCg==\",\"layer\":\"layer-1\",\"namespace\":\"external-secrets\"},{\"name\":\"weave-policy-agent\",\"version\":\"0.5.4\",\"values\":\"cG9saWN5LWFnZW50OgogIGFjY291bnRJZDogc2FkZW1vCiAgY2x1c3RlcklkOiAke0NMVVNURVJfTkFNRX0KICBjb25maWc6CiAgICBBR0VOVF9FTkFCTEVfQURNSVNTSU9OOiAiMCIK\",\"layer\":\"layer-1\",\"namespace\":\"policy-system\"}],\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+  creationTimestamp: null
+  labels:
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+  name: clusters-devteam1-bases-kustomization
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: clusters/devteam1/bases
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

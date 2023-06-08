@@ -1,0 +1,221 @@
+apiVersion: gitops.weave.works/v1alpha1
+kind: GitopsCluster
+metadata:
+  annotations:
+    metadata.weave.works/dashboard.alertmanager: http://172.16.30.231/alertmanager
+    metadata.weave.works/dashboard.grafana: http://172.16.30.231/grafana
+    metadata.weave.works/dashboard.podinfo: http://172.16.30.231/podinfo
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-xagos5\",\"title\":\"Create resource \",\"description\":\"This PR creates a lm-edge-devteam1-self-service instance\",\"template_name\":\"lm-edge-devteam1-self-service\",\"parameter_values\":{\"CLUSTER_NAME\":\"devteam1-host51-cluster31\",\"CONTROL_PLANE_MACHINE_COUNT\":\"1\",\"CONTROL_PLANE_VIP\":\"172.16.30.31\",\"HOST_IP\":\"147.28.139.51\",\"KUBERNETES_VERSION\":\"1.23.5\",\"LOADBALANCER_IP\":\"172.16.30.231\",\"WORKER_MACHINE_COUNT\":\"1\"},\"commit_message\":\"Create lm-edge-devteam1-self-service instance\",\"credentials\":{},\"values\":[{\"name\":\"cert-manager\",\"version\":\"0.0.8\",\"layer\":\"layer-0\",\"namespace\":\"cert-manager\"},{\"name\":\"elk-stack\",\"version\":\"0.0.9\",\"layer\":\"layer-2\"},{\"name\":\"external-dns\",\"version\":\"0.0.5\",\"layer\":\"layer-2\"},{\"name\":\"external-secrets\",\"version\":\"0.6.1\",\"values\":\"c2VjcmV0U3RvcmVzOgogIGVuYWJsZWQ6IGZhbHNlCg==\",\"layer\":\"layer-0\",\"namespace\":\"external-secrets\"},{\"name\":\"flagger\",\"version\":\"0.0.4\",\"values\":\"ZmxhZ2dlcjoKICBtZXNoUHJvdmlkZXI6IG5naW54CiAgcHJvbWV0aGV1czoKICAgIGluc3RhbGw6IHRydWUKbG9hZHRlc3RlcjoKICBsb2dMZXZlbDogZGVidWcK\",\"layer\":\"layer-3\",\"namespace\":\"flagger\"},{\"name\":\"ingress-nginx\",\"version\":\"0.0.18\",\"layer\":\"layer-1\",\"namespace\":\"ingress-nginx\"},{\"name\":\"metallb\",\"version\":\"0.0.3\",\"values\":\"bWV0YWxsYjoKICBjb25maWdJbmxpbmU6CiAgICBhZGRyZXNzLXBvb2xzOgogICAgLSBhZGRyZXNzZXM6CiAgICAgIC0gJHtMT0FEQkFMQU5DRVJfSVB9LzMyCiAgICAgIG5hbWU6IGRlZmF1bHQKICAgICAgcHJvdG9jb2w6IGxheWVyMgo=\",\"layer\":\"layer-0\",\"namespace\":\"metallb-system\"},{\"name\":\"prometheus\",\"version\":\"0.0.11\",\"layer\":\"layer-2\",\"namespace\":\"prometheus\"},{\"name\":\"secrets-store-config\",\"version\":\"0.0.2\",\"values\":\"Y2x1c3RlclNlY3JldFN0b3JlczoKICBhd3Mtc2VjcmV0bWFuYWdlcjoKICAgIHByb3ZpZGVyOgogICAgICBhd3M6CiAgICAgICAgYXV0aDoKICAgICAgICAgIHNlY3JldFJlZjoKICAgICAgICAgICAgYWNjZXNzS2V5SURTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBhY2Nlc3Mta2V5CiAgICAgICAgICAgICAgbmFtZTogYXdzc20tc2VjcmV0CiAgICAgICAgICAgICAgbmFtZXNwYWNlOiBmbHV4LXN5c3RlbQogICAgICAgICAgICBzZWNyZXRBY2Nlc3NLZXlTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBzZWNyZXQtYWNjZXNzLWtleQogICAgICAgICAgICAgIG5hbWU6IGF3c3NtLXNlY3JldAogICAgICAgICAgICAgIG5hbWVzcGFjZTogZmx1eC1zeXN0ZW0KICAgICAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgICAgIHNlcnZpY2U6IFNlY3JldHNNYW5hZ2VyCg==\",\"layer\":\"layer-1\",\"namespace\":\"external-secrets\"},{\"name\":\"weave-policy-agent\",\"version\":\"0.5.4\",\"values\":\"cG9saWN5LWFnZW50OgogIGFjY291bnRJZDogc2FkZW1vCiAgY2x1c3RlcklkOiAke0NMVVNURVJfTkFNRX0KICBjb25maWc6CiAgICBBR0VOVF9FTkFCTEVfQURNSVNTSU9OOiAiMCIK\",\"layer\":\"layer-1\",\"namespace\":\"policy-system\"}],\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+    templates.weave.works/created-files: "{\"files\":[\"clusters/management/clusters/devteam1/devteam1-host51-cluster31.yaml\",\"clusters/devteam1/devteam1-host51-cluster31/clusters-devteam1-bases-kustomization.yaml\"]}"
+  labels:
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+    weave.works/capi: bootstrap
+  name: devteam1-host51-cluster31
+  namespace: devteam1
+spec:
+  capiClusterRef:
+    name: devteam1-host51-cluster31
+
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  labels:
+    cni: cilium
+    secretmanager: aws
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+    weave.works/capi: bootstrap
+  name: devteam1-host51-cluster31
+  namespace: devteam1
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    services:
+      cidrBlocks:
+      - 172.26.0.0/16
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: KubeadmControlPlane
+    name: devteam1-host51-cluster31-control-plane
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+    kind: MicrovmCluster
+    name: devteam1-host51-cluster31
+
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: MicrovmCluster
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-xagos5\",\"title\":\"Create resource \",\"description\":\"This PR creates a lm-edge-devteam1-self-service instance\",\"template_name\":\"lm-edge-devteam1-self-service\",\"parameter_values\":{\"CLUSTER_NAME\":\"devteam1-host51-cluster31\",\"CONTROL_PLANE_MACHINE_COUNT\":\"1\",\"CONTROL_PLANE_VIP\":\"172.16.30.31\",\"HOST_IP\":\"147.28.139.51\",\"KUBERNETES_VERSION\":\"1.23.5\",\"LOADBALANCER_IP\":\"172.16.30.231\",\"WORKER_MACHINE_COUNT\":\"1\"},\"commit_message\":\"Create lm-edge-devteam1-self-service instance\",\"credentials\":{},\"values\":[{\"name\":\"cert-manager\",\"version\":\"0.0.8\",\"layer\":\"layer-0\",\"namespace\":\"cert-manager\"},{\"name\":\"elk-stack\",\"version\":\"0.0.9\",\"layer\":\"layer-2\"},{\"name\":\"external-dns\",\"version\":\"0.0.5\",\"layer\":\"layer-2\"},{\"name\":\"external-secrets\",\"version\":\"0.6.1\",\"values\":\"c2VjcmV0U3RvcmVzOgogIGVuYWJsZWQ6IGZhbHNlCg==\",\"layer\":\"layer-0\",\"namespace\":\"external-secrets\"},{\"name\":\"flagger\",\"version\":\"0.0.4\",\"values\":\"ZmxhZ2dlcjoKICBtZXNoUHJvdmlkZXI6IG5naW54CiAgcHJvbWV0aGV1czoKICAgIGluc3RhbGw6IHRydWUKbG9hZHRlc3RlcjoKICBsb2dMZXZlbDogZGVidWcK\",\"layer\":\"layer-3\",\"namespace\":\"flagger\"},{\"name\":\"ingress-nginx\",\"version\":\"0.0.18\",\"layer\":\"layer-1\",\"namespace\":\"ingress-nginx\"},{\"name\":\"metallb\",\"version\":\"0.0.3\",\"values\":\"bWV0YWxsYjoKICBjb25maWdJbmxpbmU6CiAgICBhZGRyZXNzLXBvb2xzOgogICAgLSBhZGRyZXNzZXM6CiAgICAgIC0gJHtMT0FEQkFMQU5DRVJfSVB9LzMyCiAgICAgIG5hbWU6IGRlZmF1bHQKICAgICAgcHJvdG9jb2w6IGxheWVyMgo=\",\"layer\":\"layer-0\",\"namespace\":\"metallb-system\"},{\"name\":\"prometheus\",\"version\":\"0.0.11\",\"layer\":\"layer-2\",\"namespace\":\"prometheus\"},{\"name\":\"secrets-store-config\",\"version\":\"0.0.2\",\"values\":\"Y2x1c3RlclNlY3JldFN0b3JlczoKICBhd3Mtc2VjcmV0bWFuYWdlcjoKICAgIHByb3ZpZGVyOgogICAgICBhd3M6CiAgICAgICAgYXV0aDoKICAgICAgICAgIHNlY3JldFJlZjoKICAgICAgICAgICAgYWNjZXNzS2V5SURTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBhY2Nlc3Mta2V5CiAgICAgICAgICAgICAgbmFtZTogYXdzc20tc2VjcmV0CiAgICAgICAgICAgICAgbmFtZXNwYWNlOiBmbHV4LXN5c3RlbQogICAgICAgICAgICBzZWNyZXRBY2Nlc3NLZXlTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBzZWNyZXQtYWNjZXNzLWtleQogICAgICAgICAgICAgIG5hbWU6IGF3c3NtLXNlY3JldAogICAgICAgICAgICAgIG5hbWVzcGFjZTogZmx1eC1zeXN0ZW0KICAgICAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgICAgIHNlcnZpY2U6IFNlY3JldHNNYW5hZ2VyCg==\",\"layer\":\"layer-1\",\"namespace\":\"external-secrets\"},{\"name\":\"weave-policy-agent\",\"version\":\"0.5.4\",\"values\":\"cG9saWN5LWFnZW50OgogIGFjY291bnRJZDogc2FkZW1vCiAgY2x1c3RlcklkOiAke0NMVVNURVJfTkFNRX0KICBjb25maWc6CiAgICBBR0VOVF9FTkFCTEVfQURNSVNTSU9OOiAiMCIK\",\"layer\":\"layer-1\",\"namespace\":\"policy-system\"}],\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+    templates.weave.works/created-files: "{\"files\":[\"clusters/management/clusters/devteam1/devteam1-host51-cluster31.yaml\",\"clusters/devteam1/devteam1-host51-cluster31/clusters-devteam1-bases-kustomization.yaml\"]}"
+  labels:
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+  name: devteam1-host51-cluster31
+  namespace: devteam1
+spec:
+  controlPlaneEndpoint:
+    host: 172.16.30.31
+    port: 6443
+  placement:
+    staticPool:
+      hosts:
+      - controlplaneAllowed: true
+        endpoint: 147.28.139.51:9090
+  sshPublicKeys:
+  - authorizedKeys:
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDDsOgtZ7ZY/p04GtWLHHFyri5N07/UNawkGl0Z6AX4Q0xO6t8Zx5mh3N5H5qCLwF98GCUmtOTUUwWxM8LHRJ7TrHP3uqQ7I+ZJ/hmp2qkUmsmgWE/3Ng/LyesixqdLXvPW0uhlbD97miLE89G3ZhXGFocbWbPAm2duhqhQ4z/vNuGRcuSNHjGO/a/7eFiXcJ8eP1goHwwTgg+EUZJwjhFTqyVwuNkOG6HhhLeyToKh6wXfsJGopWa7OBBm061xBq9Ct/Ayp5h42YJvYHuYQPvmMFg9dS/jodz1PTFPDlPb0IRpy7iBZKncFfS0BFz3I+EcsHKw83RxBevDrPHkdiH1LjJyyk+lzkeO1JHu+NkQUqu4RkqVjz9FDByu7wk6pYgXvpqzRBuSfDQU0FGQNFU/8QiFlFchVyC09yioDG4xkBQfwYj0DEgwJTRu4w7FEsTplwtnTYTRlvUD1IkX6fmopdAtaHVnrO4hIH8KTLLkx5ZfIK9UKSKlDNFlfGSm3QU= lutz@dellbook
+    user: root
+
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: KubeadmControlPlane
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-xagos5\",\"title\":\"Create resource \",\"description\":\"This PR creates a lm-edge-devteam1-self-service instance\",\"template_name\":\"lm-edge-devteam1-self-service\",\"parameter_values\":{\"CLUSTER_NAME\":\"devteam1-host51-cluster31\",\"CONTROL_PLANE_MACHINE_COUNT\":\"1\",\"CONTROL_PLANE_VIP\":\"172.16.30.31\",\"HOST_IP\":\"147.28.139.51\",\"KUBERNETES_VERSION\":\"1.23.5\",\"LOADBALANCER_IP\":\"172.16.30.231\",\"WORKER_MACHINE_COUNT\":\"1\"},\"commit_message\":\"Create lm-edge-devteam1-self-service instance\",\"credentials\":{},\"values\":[{\"name\":\"cert-manager\",\"version\":\"0.0.8\",\"layer\":\"layer-0\",\"namespace\":\"cert-manager\"},{\"name\":\"elk-stack\",\"version\":\"0.0.9\",\"layer\":\"layer-2\"},{\"name\":\"external-dns\",\"version\":\"0.0.5\",\"layer\":\"layer-2\"},{\"name\":\"external-secrets\",\"version\":\"0.6.1\",\"values\":\"c2VjcmV0U3RvcmVzOgogIGVuYWJsZWQ6IGZhbHNlCg==\",\"layer\":\"layer-0\",\"namespace\":\"external-secrets\"},{\"name\":\"flagger\",\"version\":\"0.0.4\",\"values\":\"ZmxhZ2dlcjoKICBtZXNoUHJvdmlkZXI6IG5naW54CiAgcHJvbWV0aGV1czoKICAgIGluc3RhbGw6IHRydWUKbG9hZHRlc3RlcjoKICBsb2dMZXZlbDogZGVidWcK\",\"layer\":\"layer-3\",\"namespace\":\"flagger\"},{\"name\":\"ingress-nginx\",\"version\":\"0.0.18\",\"layer\":\"layer-1\",\"namespace\":\"ingress-nginx\"},{\"name\":\"metallb\",\"version\":\"0.0.3\",\"values\":\"bWV0YWxsYjoKICBjb25maWdJbmxpbmU6CiAgICBhZGRyZXNzLXBvb2xzOgogICAgLSBhZGRyZXNzZXM6CiAgICAgIC0gJHtMT0FEQkFMQU5DRVJfSVB9LzMyCiAgICAgIG5hbWU6IGRlZmF1bHQKICAgICAgcHJvdG9jb2w6IGxheWVyMgo=\",\"layer\":\"layer-0\",\"namespace\":\"metallb-system\"},{\"name\":\"prometheus\",\"version\":\"0.0.11\",\"layer\":\"layer-2\",\"namespace\":\"prometheus\"},{\"name\":\"secrets-store-config\",\"version\":\"0.0.2\",\"values\":\"Y2x1c3RlclNlY3JldFN0b3JlczoKICBhd3Mtc2VjcmV0bWFuYWdlcjoKICAgIHByb3ZpZGVyOgogICAgICBhd3M6CiAgICAgICAgYXV0aDoKICAgICAgICAgIHNlY3JldFJlZjoKICAgICAgICAgICAgYWNjZXNzS2V5SURTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBhY2Nlc3Mta2V5CiAgICAgICAgICAgICAgbmFtZTogYXdzc20tc2VjcmV0CiAgICAgICAgICAgICAgbmFtZXNwYWNlOiBmbHV4LXN5c3RlbQogICAgICAgICAgICBzZWNyZXRBY2Nlc3NLZXlTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBzZWNyZXQtYWNjZXNzLWtleQogICAgICAgICAgICAgIG5hbWU6IGF3c3NtLXNlY3JldAogICAgICAgICAgICAgIG5hbWVzcGFjZTogZmx1eC1zeXN0ZW0KICAgICAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgICAgIHNlcnZpY2U6IFNlY3JldHNNYW5hZ2VyCg==\",\"layer\":\"layer-1\",\"namespace\":\"external-secrets\"},{\"name\":\"weave-policy-agent\",\"version\":\"0.5.4\",\"values\":\"cG9saWN5LWFnZW50OgogIGFjY291bnRJZDogc2FkZW1vCiAgY2x1c3RlcklkOiAke0NMVVNURVJfTkFNRX0KICBjb25maWc6CiAgICBBR0VOVF9FTkFCTEVfQURNSVNTSU9OOiAiMCIK\",\"layer\":\"layer-1\",\"namespace\":\"policy-system\"}],\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+    templates.weave.works/created-files: "{\"files\":[\"clusters/management/clusters/devteam1/devteam1-host51-cluster31.yaml\",\"clusters/devteam1/devteam1-host51-cluster31/clusters-devteam1-bases-kustomization.yaml\"]}"
+  labels:
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+  name: devteam1-host51-cluster31-control-plane
+  namespace: devteam1
+spec:
+  kubeadmConfigSpec:
+    clusterConfiguration: {}
+    initConfiguration:
+      nodeRegistration:
+        kubeletExtraArgs:
+          provider-id: microvm://{{ ds.meta_data.vm_host }}/{{ ds.meta_data.instance_id }}
+    joinConfiguration:
+      nodeRegistration:
+        ignorePreflightErrors:
+        - DirAvailable--etc-kubernetes-manifests
+        kubeletExtraArgs:
+          provider-id: microvm://{{ ds.meta_data.vm_host }}/{{ ds.meta_data.instance_id }}
+    preKubeadmCommands:
+    - mkdir -p /etc/kubernetes/manifests && ctr images pull ghcr.io/kube-vip/kube-vip:v0.4.0 && ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:v0.4.0 vip /kube-vip manifest pod --arp --interface $(ip -4 -j route list default | jq -r .[0].dev) --address 172.16.30.31 --controlplane --leaderElection > /etc/kubernetes/manifests/kube-vip.yaml
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+      kind: MicrovmMachineTemplate
+      name: devteam1-host51-cluster31-control-plane
+  replicas: 1
+  version: v1.23.5
+
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: MicrovmMachineTemplate
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-xagos5\",\"title\":\"Create resource \",\"description\":\"This PR creates a lm-edge-devteam1-self-service instance\",\"template_name\":\"lm-edge-devteam1-self-service\",\"parameter_values\":{\"CLUSTER_NAME\":\"devteam1-host51-cluster31\",\"CONTROL_PLANE_MACHINE_COUNT\":\"1\",\"CONTROL_PLANE_VIP\":\"172.16.30.31\",\"HOST_IP\":\"147.28.139.51\",\"KUBERNETES_VERSION\":\"1.23.5\",\"LOADBALANCER_IP\":\"172.16.30.231\",\"WORKER_MACHINE_COUNT\":\"1\"},\"commit_message\":\"Create lm-edge-devteam1-self-service instance\",\"credentials\":{},\"values\":[{\"name\":\"cert-manager\",\"version\":\"0.0.8\",\"layer\":\"layer-0\",\"namespace\":\"cert-manager\"},{\"name\":\"elk-stack\",\"version\":\"0.0.9\",\"layer\":\"layer-2\"},{\"name\":\"external-dns\",\"version\":\"0.0.5\",\"layer\":\"layer-2\"},{\"name\":\"external-secrets\",\"version\":\"0.6.1\",\"values\":\"c2VjcmV0U3RvcmVzOgogIGVuYWJsZWQ6IGZhbHNlCg==\",\"layer\":\"layer-0\",\"namespace\":\"external-secrets\"},{\"name\":\"flagger\",\"version\":\"0.0.4\",\"values\":\"ZmxhZ2dlcjoKICBtZXNoUHJvdmlkZXI6IG5naW54CiAgcHJvbWV0aGV1czoKICAgIGluc3RhbGw6IHRydWUKbG9hZHRlc3RlcjoKICBsb2dMZXZlbDogZGVidWcK\",\"layer\":\"layer-3\",\"namespace\":\"flagger\"},{\"name\":\"ingress-nginx\",\"version\":\"0.0.18\",\"layer\":\"layer-1\",\"namespace\":\"ingress-nginx\"},{\"name\":\"metallb\",\"version\":\"0.0.3\",\"values\":\"bWV0YWxsYjoKICBjb25maWdJbmxpbmU6CiAgICBhZGRyZXNzLXBvb2xzOgogICAgLSBhZGRyZXNzZXM6CiAgICAgIC0gJHtMT0FEQkFMQU5DRVJfSVB9LzMyCiAgICAgIG5hbWU6IGRlZmF1bHQKICAgICAgcHJvdG9jb2w6IGxheWVyMgo=\",\"layer\":\"layer-0\",\"namespace\":\"metallb-system\"},{\"name\":\"prometheus\",\"version\":\"0.0.11\",\"layer\":\"layer-2\",\"namespace\":\"prometheus\"},{\"name\":\"secrets-store-config\",\"version\":\"0.0.2\",\"values\":\"Y2x1c3RlclNlY3JldFN0b3JlczoKICBhd3Mtc2VjcmV0bWFuYWdlcjoKICAgIHByb3ZpZGVyOgogICAgICBhd3M6CiAgICAgICAgYXV0aDoKICAgICAgICAgIHNlY3JldFJlZjoKICAgICAgICAgICAgYWNjZXNzS2V5SURTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBhY2Nlc3Mta2V5CiAgICAgICAgICAgICAgbmFtZTogYXdzc20tc2VjcmV0CiAgICAgICAgICAgICAgbmFtZXNwYWNlOiBmbHV4LXN5c3RlbQogICAgICAgICAgICBzZWNyZXRBY2Nlc3NLZXlTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBzZWNyZXQtYWNjZXNzLWtleQogICAgICAgICAgICAgIG5hbWU6IGF3c3NtLXNlY3JldAogICAgICAgICAgICAgIG5hbWVzcGFjZTogZmx1eC1zeXN0ZW0KICAgICAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgICAgIHNlcnZpY2U6IFNlY3JldHNNYW5hZ2VyCg==\",\"layer\":\"layer-1\",\"namespace\":\"external-secrets\"},{\"name\":\"weave-policy-agent\",\"version\":\"0.5.4\",\"values\":\"cG9saWN5LWFnZW50OgogIGFjY291bnRJZDogc2FkZW1vCiAgY2x1c3RlcklkOiAke0NMVVNURVJfTkFNRX0KICBjb25maWc6CiAgICBBR0VOVF9FTkFCTEVfQURNSVNTSU9OOiAiMCIK\",\"layer\":\"layer-1\",\"namespace\":\"policy-system\"}],\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+    templates.weave.works/created-files: "{\"files\":[\"clusters/management/clusters/devteam1/devteam1-host51-cluster31.yaml\",\"clusters/devteam1/devteam1-host51-cluster31/clusters-devteam1-bases-kustomization.yaml\"]}"
+  labels:
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+  name: devteam1-host51-cluster31-control-plane
+  namespace: devteam1
+spec:
+  template:
+    spec:
+      kernel:
+        filename: boot/vmlinux
+        image: ghcr.io/weaveworks-liquidmetal/flintlock-kernel:5.10.77
+      kernelCmdline: {}
+      memoryMb: 2048
+      networkInterfaces:
+      - guestDeviceName: eth1
+        type: macvtap
+      rootVolume:
+        id: root
+        image: ghcr.io/weaveworks-liquidmetal/capmvm-kubernetes:1.23.5
+      vcpu: 2
+
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-xagos5\",\"title\":\"Create resource \",\"description\":\"This PR creates a lm-edge-devteam1-self-service instance\",\"template_name\":\"lm-edge-devteam1-self-service\",\"parameter_values\":{\"CLUSTER_NAME\":\"devteam1-host51-cluster31\",\"CONTROL_PLANE_MACHINE_COUNT\":\"1\",\"CONTROL_PLANE_VIP\":\"172.16.30.31\",\"HOST_IP\":\"147.28.139.51\",\"KUBERNETES_VERSION\":\"1.23.5\",\"LOADBALANCER_IP\":\"172.16.30.231\",\"WORKER_MACHINE_COUNT\":\"1\"},\"commit_message\":\"Create lm-edge-devteam1-self-service instance\",\"credentials\":{},\"values\":[{\"name\":\"cert-manager\",\"version\":\"0.0.8\",\"layer\":\"layer-0\",\"namespace\":\"cert-manager\"},{\"name\":\"elk-stack\",\"version\":\"0.0.9\",\"layer\":\"layer-2\"},{\"name\":\"external-dns\",\"version\":\"0.0.5\",\"layer\":\"layer-2\"},{\"name\":\"external-secrets\",\"version\":\"0.6.1\",\"values\":\"c2VjcmV0U3RvcmVzOgogIGVuYWJsZWQ6IGZhbHNlCg==\",\"layer\":\"layer-0\",\"namespace\":\"external-secrets\"},{\"name\":\"flagger\",\"version\":\"0.0.4\",\"values\":\"ZmxhZ2dlcjoKICBtZXNoUHJvdmlkZXI6IG5naW54CiAgcHJvbWV0aGV1czoKICAgIGluc3RhbGw6IHRydWUKbG9hZHRlc3RlcjoKICBsb2dMZXZlbDogZGVidWcK\",\"layer\":\"layer-3\",\"namespace\":\"flagger\"},{\"name\":\"ingress-nginx\",\"version\":\"0.0.18\",\"layer\":\"layer-1\",\"namespace\":\"ingress-nginx\"},{\"name\":\"metallb\",\"version\":\"0.0.3\",\"values\":\"bWV0YWxsYjoKICBjb25maWdJbmxpbmU6CiAgICBhZGRyZXNzLXBvb2xzOgogICAgLSBhZGRyZXNzZXM6CiAgICAgIC0gJHtMT0FEQkFMQU5DRVJfSVB9LzMyCiAgICAgIG5hbWU6IGRlZmF1bHQKICAgICAgcHJvdG9jb2w6IGxheWVyMgo=\",\"layer\":\"layer-0\",\"namespace\":\"metallb-system\"},{\"name\":\"prometheus\",\"version\":\"0.0.11\",\"layer\":\"layer-2\",\"namespace\":\"prometheus\"},{\"name\":\"secrets-store-config\",\"version\":\"0.0.2\",\"values\":\"Y2x1c3RlclNlY3JldFN0b3JlczoKICBhd3Mtc2VjcmV0bWFuYWdlcjoKICAgIHByb3ZpZGVyOgogICAgICBhd3M6CiAgICAgICAgYXV0aDoKICAgICAgICAgIHNlY3JldFJlZjoKICAgICAgICAgICAgYWNjZXNzS2V5SURTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBhY2Nlc3Mta2V5CiAgICAgICAgICAgICAgbmFtZTogYXdzc20tc2VjcmV0CiAgICAgICAgICAgICAgbmFtZXNwYWNlOiBmbHV4LXN5c3RlbQogICAgICAgICAgICBzZWNyZXRBY2Nlc3NLZXlTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBzZWNyZXQtYWNjZXNzLWtleQogICAgICAgICAgICAgIG5hbWU6IGF3c3NtLXNlY3JldAogICAgICAgICAgICAgIG5hbWVzcGFjZTogZmx1eC1zeXN0ZW0KICAgICAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgICAgIHNlcnZpY2U6IFNlY3JldHNNYW5hZ2VyCg==\",\"layer\":\"layer-1\",\"namespace\":\"external-secrets\"},{\"name\":\"weave-policy-agent\",\"version\":\"0.5.4\",\"values\":\"cG9saWN5LWFnZW50OgogIGFjY291bnRJZDogc2FkZW1vCiAgY2x1c3RlcklkOiAke0NMVVNURVJfTkFNRX0KICBjb25maWc6CiAgICBBR0VOVF9FTkFCTEVfQURNSVNTSU9OOiAiMCIK\",\"layer\":\"layer-1\",\"namespace\":\"policy-system\"}],\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+    templates.weave.works/created-files: "{\"files\":[\"clusters/management/clusters/devteam1/devteam1-host51-cluster31.yaml\",\"clusters/devteam1/devteam1-host51-cluster31/clusters-devteam1-bases-kustomization.yaml\"]}"
+  labels:
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+  name: devteam1-host51-cluster31-md-0
+  namespace: devteam1
+spec:
+  clusterName: devteam1-host51-cluster31
+  replicas: 1
+  selector:
+    matchLabels: null
+  template:
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          name: devteam1-host51-cluster31-md-0
+      clusterName: devteam1-host51-cluster31
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+        kind: MicrovmMachineTemplate
+        name: devteam1-host51-cluster31-md-0
+      version: v1.23.5
+
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: MicrovmMachineTemplate
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-xagos5\",\"title\":\"Create resource \",\"description\":\"This PR creates a lm-edge-devteam1-self-service instance\",\"template_name\":\"lm-edge-devteam1-self-service\",\"parameter_values\":{\"CLUSTER_NAME\":\"devteam1-host51-cluster31\",\"CONTROL_PLANE_MACHINE_COUNT\":\"1\",\"CONTROL_PLANE_VIP\":\"172.16.30.31\",\"HOST_IP\":\"147.28.139.51\",\"KUBERNETES_VERSION\":\"1.23.5\",\"LOADBALANCER_IP\":\"172.16.30.231\",\"WORKER_MACHINE_COUNT\":\"1\"},\"commit_message\":\"Create lm-edge-devteam1-self-service instance\",\"credentials\":{},\"values\":[{\"name\":\"cert-manager\",\"version\":\"0.0.8\",\"layer\":\"layer-0\",\"namespace\":\"cert-manager\"},{\"name\":\"elk-stack\",\"version\":\"0.0.9\",\"layer\":\"layer-2\"},{\"name\":\"external-dns\",\"version\":\"0.0.5\",\"layer\":\"layer-2\"},{\"name\":\"external-secrets\",\"version\":\"0.6.1\",\"values\":\"c2VjcmV0U3RvcmVzOgogIGVuYWJsZWQ6IGZhbHNlCg==\",\"layer\":\"layer-0\",\"namespace\":\"external-secrets\"},{\"name\":\"flagger\",\"version\":\"0.0.4\",\"values\":\"ZmxhZ2dlcjoKICBtZXNoUHJvdmlkZXI6IG5naW54CiAgcHJvbWV0aGV1czoKICAgIGluc3RhbGw6IHRydWUKbG9hZHRlc3RlcjoKICBsb2dMZXZlbDogZGVidWcK\",\"layer\":\"layer-3\",\"namespace\":\"flagger\"},{\"name\":\"ingress-nginx\",\"version\":\"0.0.18\",\"layer\":\"layer-1\",\"namespace\":\"ingress-nginx\"},{\"name\":\"metallb\",\"version\":\"0.0.3\",\"values\":\"bWV0YWxsYjoKICBjb25maWdJbmxpbmU6CiAgICBhZGRyZXNzLXBvb2xzOgogICAgLSBhZGRyZXNzZXM6CiAgICAgIC0gJHtMT0FEQkFMQU5DRVJfSVB9LzMyCiAgICAgIG5hbWU6IGRlZmF1bHQKICAgICAgcHJvdG9jb2w6IGxheWVyMgo=\",\"layer\":\"layer-0\",\"namespace\":\"metallb-system\"},{\"name\":\"prometheus\",\"version\":\"0.0.11\",\"layer\":\"layer-2\",\"namespace\":\"prometheus\"},{\"name\":\"secrets-store-config\",\"version\":\"0.0.2\",\"values\":\"Y2x1c3RlclNlY3JldFN0b3JlczoKICBhd3Mtc2VjcmV0bWFuYWdlcjoKICAgIHByb3ZpZGVyOgogICAgICBhd3M6CiAgICAgICAgYXV0aDoKICAgICAgICAgIHNlY3JldFJlZjoKICAgICAgICAgICAgYWNjZXNzS2V5SURTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBhY2Nlc3Mta2V5CiAgICAgICAgICAgICAgbmFtZTogYXdzc20tc2VjcmV0CiAgICAgICAgICAgICAgbmFtZXNwYWNlOiBmbHV4LXN5c3RlbQogICAgICAgICAgICBzZWNyZXRBY2Nlc3NLZXlTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBzZWNyZXQtYWNjZXNzLWtleQogICAgICAgICAgICAgIG5hbWU6IGF3c3NtLXNlY3JldAogICAgICAgICAgICAgIG5hbWVzcGFjZTogZmx1eC1zeXN0ZW0KICAgICAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgICAgIHNlcnZpY2U6IFNlY3JldHNNYW5hZ2VyCg==\",\"layer\":\"layer-1\",\"namespace\":\"external-secrets\"},{\"name\":\"weave-policy-agent\",\"version\":\"0.5.4\",\"values\":\"cG9saWN5LWFnZW50OgogIGFjY291bnRJZDogc2FkZW1vCiAgY2x1c3RlcklkOiAke0NMVVNURVJfTkFNRX0KICBjb25maWc6CiAgICBBR0VOVF9FTkFCTEVfQURNSVNTSU9OOiAiMCIK\",\"layer\":\"layer-1\",\"namespace\":\"policy-system\"}],\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+    templates.weave.works/created-files: "{\"files\":[\"clusters/management/clusters/devteam1/devteam1-host51-cluster31.yaml\",\"clusters/devteam1/devteam1-host51-cluster31/clusters-devteam1-bases-kustomization.yaml\"]}"
+  labels:
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+  name: devteam1-host51-cluster31-md-0
+  namespace: devteam1
+spec:
+  template:
+    spec:
+      kernel:
+        filename: boot/vmlinux
+        image: ghcr.io/weaveworks-liquidmetal/flintlock-kernel:5.10.77
+      kernelCmdline: {}
+      memoryMb: 4096
+      networkInterfaces:
+      - guestDeviceName: eth1
+        type: macvtap
+      rootVolume:
+        id: root
+        image: ghcr.io/weaveworks-liquidmetal/capmvm-kubernetes:1.23.5
+      vcpu: 2
+
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: KubeadmConfigTemplate
+metadata:
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    templates.weave.works/create-request: "{\"repository_url\":\"https://github.com/weavegitops/podinfo-app.git\",\"head_branch\":\"wge-create-branch-xagos5\",\"title\":\"Create resource \",\"description\":\"This PR creates a lm-edge-devteam1-self-service instance\",\"template_name\":\"lm-edge-devteam1-self-service\",\"parameter_values\":{\"CLUSTER_NAME\":\"devteam1-host51-cluster31\",\"CONTROL_PLANE_MACHINE_COUNT\":\"1\",\"CONTROL_PLANE_VIP\":\"172.16.30.31\",\"HOST_IP\":\"147.28.139.51\",\"KUBERNETES_VERSION\":\"1.23.5\",\"LOADBALANCER_IP\":\"172.16.30.231\",\"WORKER_MACHINE_COUNT\":\"1\"},\"commit_message\":\"Create lm-edge-devteam1-self-service instance\",\"credentials\":{},\"values\":[{\"name\":\"cert-manager\",\"version\":\"0.0.8\",\"layer\":\"layer-0\",\"namespace\":\"cert-manager\"},{\"name\":\"elk-stack\",\"version\":\"0.0.9\",\"layer\":\"layer-2\"},{\"name\":\"external-dns\",\"version\":\"0.0.5\",\"layer\":\"layer-2\"},{\"name\":\"external-secrets\",\"version\":\"0.6.1\",\"values\":\"c2VjcmV0U3RvcmVzOgogIGVuYWJsZWQ6IGZhbHNlCg==\",\"layer\":\"layer-0\",\"namespace\":\"external-secrets\"},{\"name\":\"flagger\",\"version\":\"0.0.4\",\"values\":\"ZmxhZ2dlcjoKICBtZXNoUHJvdmlkZXI6IG5naW54CiAgcHJvbWV0aGV1czoKICAgIGluc3RhbGw6IHRydWUKbG9hZHRlc3RlcjoKICBsb2dMZXZlbDogZGVidWcK\",\"layer\":\"layer-3\",\"namespace\":\"flagger\"},{\"name\":\"ingress-nginx\",\"version\":\"0.0.18\",\"layer\":\"layer-1\",\"namespace\":\"ingress-nginx\"},{\"name\":\"metallb\",\"version\":\"0.0.3\",\"values\":\"bWV0YWxsYjoKICBjb25maWdJbmxpbmU6CiAgICBhZGRyZXNzLXBvb2xzOgogICAgLSBhZGRyZXNzZXM6CiAgICAgIC0gJHtMT0FEQkFMQU5DRVJfSVB9LzMyCiAgICAgIG5hbWU6IGRlZmF1bHQKICAgICAgcHJvdG9jb2w6IGxheWVyMgo=\",\"layer\":\"layer-0\",\"namespace\":\"metallb-system\"},{\"name\":\"prometheus\",\"version\":\"0.0.11\",\"layer\":\"layer-2\",\"namespace\":\"prometheus\"},{\"name\":\"secrets-store-config\",\"version\":\"0.0.2\",\"values\":\"Y2x1c3RlclNlY3JldFN0b3JlczoKICBhd3Mtc2VjcmV0bWFuYWdlcjoKICAgIHByb3ZpZGVyOgogICAgICBhd3M6CiAgICAgICAgYXV0aDoKICAgICAgICAgIHNlY3JldFJlZjoKICAgICAgICAgICAgYWNjZXNzS2V5SURTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBhY2Nlc3Mta2V5CiAgICAgICAgICAgICAgbmFtZTogYXdzc20tc2VjcmV0CiAgICAgICAgICAgICAgbmFtZXNwYWNlOiBmbHV4LXN5c3RlbQogICAgICAgICAgICBzZWNyZXRBY2Nlc3NLZXlTZWNyZXRSZWY6CiAgICAgICAgICAgICAga2V5OiBzZWNyZXQtYWNjZXNzLWtleQogICAgICAgICAgICAgIG5hbWU6IGF3c3NtLXNlY3JldAogICAgICAgICAgICAgIG5hbWVzcGFjZTogZmx1eC1zeXN0ZW0KICAgICAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgICAgIHNlcnZpY2U6IFNlY3JldHNNYW5hZ2VyCg==\",\"layer\":\"layer-1\",\"namespace\":\"external-secrets\"},{\"name\":\"weave-policy-agent\",\"version\":\"0.5.4\",\"values\":\"cG9saWN5LWFnZW50OgogIGFjY291bnRJZDogc2FkZW1vCiAgY2x1c3RlcklkOiAke0NMVVNURVJfTkFNRX0KICBjb25maWc6CiAgICBBR0VOVF9FTkFCTEVfQURNSVNTSU9OOiAiMCIK\",\"layer\":\"layer-1\",\"namespace\":\"policy-system\"}],\"template_namespace\":\"devteam1\",\"template_kind\":\"GitOpsTemplate\"}"
+    templates.weave.works/created-files: "{\"files\":[\"clusters/management/clusters/devteam1/devteam1-host51-cluster31.yaml\",\"clusters/devteam1/devteam1-host51-cluster31/clusters-devteam1-bases-kustomization.yaml\"]}"
+  labels:
+    templates.weave.works/template-name: lm-edge-devteam1-self-service
+    templates.weave.works/template-namespace: default
+  name: devteam1-host51-cluster31-md-0
+  namespace: devteam1
+spec:
+  template:
+    spec:
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            provider-id: microvm://{{ ds.meta_data.vm_host }}/{{ ds.meta_data.instance_id }}

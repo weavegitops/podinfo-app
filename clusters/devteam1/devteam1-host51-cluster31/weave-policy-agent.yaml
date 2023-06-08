@@ -1,0 +1,36 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  creationTimestamp: null
+  labels:
+    weave.works/applied-layer: layer-1
+  name: weave-policy-agent
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: weave-policy-agent
+      sourceRef:
+        apiVersion: source.toolkit.fluxcd.io/v1beta2
+        kind: HelmRepository
+        name: weaveworks-charts
+        namespace: flux-system
+      version: 0.5.4
+  dependsOn:
+  - name: cert-manager
+  - name: external-secrets
+  - name: metallb
+  install:
+    crds: CreateReplace
+    createNamespace: true
+  interval: 1m0s
+  targetNamespace: policy-system
+  upgrade:
+    crds: CreateReplace
+  values:
+    policy-agent:
+      accountId: sademo
+      clusterId: devteam1-host51-cluster31
+      config:
+        AGENT_ENABLE_ADMISSION: "0"
+status: {}
